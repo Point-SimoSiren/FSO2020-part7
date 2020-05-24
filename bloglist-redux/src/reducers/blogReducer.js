@@ -1,4 +1,7 @@
 import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
+import { notificationAction, emptyAction } from './notificationReducer'
+import { positiveAction, negativeAction } from './positivityReducer'
 
 const blogReducer = (state = [], action) => {
     let newState = [...state]
@@ -19,7 +22,7 @@ const blogReducer = (state = [], action) => {
             const found = newState.findIndex((blog) => {
                 return blog.id === id
             })
-            newState[found].votes = newState[found].votes + 1
+            newState[found].likes = newState[found].likes + 1
             return newState
     }
 }
@@ -48,13 +51,14 @@ export const removeAction = (id) => {
     }
 }
 
-export const likeAction = (id) => {
+export const likeAction = (blog) => {
     return dispatch => {
-        blogService.update(id)
+        blogService.update(blog.id, blog)
         dispatch({
             type: 'LIKE',
             payload: {
-                id: id
+                id: blog.id,
+                blog: blog
             }
         })
     }

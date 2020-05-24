@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 // Used for adding new blogs, state is in the app.js
 
 const LoginForm = ({
-    handleSubmit,
+    handleLoginSubmit,
     handleUsernameChange,
     handlePasswordChange,
     username,
@@ -14,7 +14,7 @@ const LoginForm = ({
         <div>
             <h2>Login</h2>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleLoginSubmit}>
                 <div>
                     username
                     <input

@@ -12,7 +12,8 @@ import { initAction, removeAction, likeAction } from './reducers/blogReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
 
-// I have re-named component App to Blogs
+/* I have re-named component App to Blogs because I hook all blogs here and loop
+them singularly to Blog */
 
 const Blogs = () => {
 
@@ -56,7 +57,7 @@ const Blogs = () => {
 
   //--------LOGIN-------------------------------
 
-  const handleSubmit = async (event) => {
+  const handleLoginSubmit = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
@@ -159,6 +160,7 @@ const Blogs = () => {
 
         <Togglable buttonLabel='login'>
           <LoginForm
+            handleLoginSubmit={handleLoginSubmit}
             username={username}
             password={password}
             handleUsernameChange={({ target }) => setUsername(target.value)}
