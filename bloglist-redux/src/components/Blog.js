@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeAction } from '../reducers/blogReducer'
 import { positiveAction } from '../reducers/positivityReducer'
-import { notificationAction } from '../reducers/notificationReducer'
+import { notificationAction, emptyAction } from '../reducers/notificationReducer'
 
 const Blog = ({ blog, handleDeleteClick }) => {
     const [showBlog, setShowBlog] = useState(false)
@@ -13,12 +13,19 @@ const Blog = ({ blog, handleDeleteClick }) => {
         dispatch(likeAction(blog))
         dispatch(positiveAction)
         dispatch(notificationAction(`You liked blog: ${blog.title}!`))
+        setTimeout(() => {
+            dispatch(emptyAction())
+        }, 5000)
     }
 
     const blogStyle = {
+        textAlign: 'center',
+        marginRight: 300,
         paddingTop: 10,
         paddingLeft: 2,
         border: 'solid',
+        borderColor: 'orange',
+        borderRadius: 5,
         borderWidth: 1,
         marginBottom: 5
     }

@@ -1,4 +1,4 @@
-const positivityReducer = (state = '', action) => {
+const positivityReducer = (state = 'positive', action) => {
     switch (action.type) {
         case 'POSITIVE':
             return 'positive'

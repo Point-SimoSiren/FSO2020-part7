@@ -1,7 +1,4 @@
 import blogService from '../services/blogs'
-import { useDispatch } from 'react-redux'
-import { notificationAction, emptyAction } from './notificationReducer'
-import { positiveAction, negativeAction } from './positivityReducer'
 
 const blogReducer = (state = [], action) => {
     let newState = [...state]
@@ -64,7 +61,7 @@ export const likeAction = (blog) => {
     }
 }
 
-export const initAction = () => {
+export const initBlogsAction = () => {
     return async dispatch => {
         const blogs = await blogService.getAll()
         dispatch({

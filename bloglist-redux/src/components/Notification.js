@@ -17,14 +17,14 @@ const Notification = () => {
     if (notification === null) {
         return null
     }
-    else if (positivity == 'positive') {
+    else if (positivity === 'positive') {
         return (
             <div className="success">
                 {notification}
             </div>
         )
     }
-    else if (positivity == 'negative') {
+    else if (positivity === 'negative') {
         return (
             <div className="error">
                 {notification}
@@ -36,7 +36,6 @@ const Notification = () => {
         positivity: PropTypes.string
     }
 }
-
 
 export default Notification
 

@@ -4,8 +4,8 @@ body {
 
 .error {
     color: red;
-    width: 400px;
-    background: lightgrey;
+    width: 700px;
+    background: darkorange;
     font-size: 20px;
     border-style: solid;
     border-radius: 5px;
@@ -15,8 +15,8 @@ body {
   
   .success {
     color: green;
-    width: 400px;
-    background: lightgrey;
+    width: 700px;
+    background: greenyellow;
     font-size: 20px;
     border-style: solid;
     border-radius: 5px;

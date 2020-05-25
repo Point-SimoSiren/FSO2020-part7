@@ -1,91 +1,50 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Blog from './components/Blog'
-import loginService from './services/login'
 import blogsService from './services/blogs'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/Loginform'
 import Togglable from './components/Togglable'
+import { setUserAction, initUsersAction } from './reducers/userReducer'
 import { notificationAction, emptyAction } from './reducers/notificationReducer'
 import { positiveAction, negativeAction } from './reducers/positivityReducer'
-import { initAction, removeAction, likeAction } from './reducers/blogReducer'
+import { initBlogsAction, removeAction } from './reducers/blogReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
+import Users from './components/Users'
 
-/* I have re-named component App to Blogs because I hook all blogs here and loop
-them singularly to Blog */
+/* I have re-named this main component App to Blogs */
 
 const Blogs = () => {
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initAction())
+    dispatch(initBlogsAction())
   }, [dispatch])
 
+  useEffect(() => {
+    dispatch(initUsersAction())
+  }, [dispatch])
+
+  const user = useSelector(({ user }) => {
+    return user
+  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogsAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUserAction(user))
       blogsService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
   const blogs = useSelector(({ blogs }) => {
     return blogs
   })
 
-  //--- LOGOUT -------------------------------
 
-  const handleLogOut = () => {
-    localStorage.clear()
-
-    dispatch(positiveAction())
-    dispatch(notificationAction('Logout was succesfull!'))
-
-    setTimeout(() => {
-      dispatch(emptyAction())
-      window.location.reload()
-    }, 3000)
-  }
-
-  //--------LOGIN-------------------------------
-
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem(
-        'loggedBlogsAppUser', JSON.stringify(user)
-      )
-
-      blogsService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      dispatch(positiveAction())
-      dispatch(notificationAction('Login was succesfull!'))
-      setTimeout(() => {
-        dispatch(emptyAction())
-      }, 3000)
-
-
-    } catch (exception) {
-      dispatch(positiveAction())
-      dispatch(notificationAction('Wrong credentials!'))
-      setTimeout(() => {
-        dispatch(emptyAction())
-      }, 3000)
-    }
-  }
   //------------------DELETE---------------------------
 
   const handleDeleteClick = id => {
@@ -101,6 +60,7 @@ const Blogs = () => {
             dispatch(notificationAction(`${blogToRemove.title} was deleted from the database.`))
             setTimeout(() => {
               dispatch(emptyAction())
+              dispatch(initBlogsAction())
             }, 3000)
           }
         })
@@ -117,35 +77,19 @@ const Blogs = () => {
     }
   }
 
-  //----------LIKE-UPDATE------------------------------------
+  //--- LOGOUT -------------------------------
 
-  const like = id => {
-    const blog = blogs.find(b => b.id === id)
-    let newLikes = blog.likes + 1
-    const likedBlog = {
-      likes: newLikes,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url
-    }
+  const handleLogOut = () => {
+    localStorage.clear()
 
-    blogsService
-      .update(id, likedBlog)
-      .then(data => {
-        dispatch(likeAction(blogs.map(blog => blog.id !== id ? blog : data)))
-      })
-      .catch(() => {
-        dispatch(negativeAction())
-        dispatch(notificationAction(
-          `blog '${blog.content}' was already removed from server`
-        ))
-        setTimeout(() => {
-          dispatch(emptyAction)
-        }, 3000)
-        dispatch(initAction(blogs.filter(b => b.id !== id)))
-      })
+    dispatch(positiveAction())
+    dispatch(notificationAction('Logout was succesfull!'))
+
+    setTimeout(() => {
+      dispatch(emptyAction())
+      window.location.reload()
+    }, 3000)
   }
-
 
 
   //-----------APP.js returns to screen when not logged in------------
@@ -159,13 +103,7 @@ const Blogs = () => {
         <h1>Bloglist</h1>
 
         <Togglable buttonLabel='login'>
-          <LoginForm
-            handleLoginSubmit={handleLoginSubmit}
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-          />
+          <LoginForm />
         </Togglable>
 
       </div>
@@ -177,9 +115,8 @@ const Blogs = () => {
       <div>
         <h1>Bloglist</h1>
 
-        <Notification />
         <p>Logged in as {user.username}
-          <button style={{ width: "100px", height: "25px", marginLeft: "300px" }}
+          <button style={{ width: "150px", height: "30px", marginLeft: "300px" }}
             onClick={handleLogOut} >
             LOGOUT
           </button></p>
@@ -189,11 +126,12 @@ const Blogs = () => {
         </Togglable>
 
         <h2 style={{ color: 'blue' }}>Blog listing</h2>
-
+        <Notification />
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} user={user}
             handleDeleteClick={handleDeleteClick} />
         )}
+        <Users />
       </div>
     )
   }
