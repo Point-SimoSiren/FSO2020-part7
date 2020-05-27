@@ -5,12 +5,13 @@ import notificationReducer from './reducers/notificationReducer'
 import positivityReducer from './reducers/positivityReducer'
 import blogReducer from './reducers/blogReducer'
 import userReducer from './reducers/userReducer'
+import currentUserReducer from './reducers/currentUserReducer'
 
 const reducer = combineReducers({
     notification: notificationReducer,
     positivity: positivityReducer,
     blogs: blogReducer,
-    user: userReducer,
+    currentUser: currentUserReducer,
     users: userReducer
 })
 

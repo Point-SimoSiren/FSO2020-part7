@@ -5,9 +5,9 @@ import User from './User'
 const Users = () => {
 
     const users = useSelector(({ users }) => {
-        return users.
+        return users
     })
-
+    console.log(users)
     return (
         <div>
             <h2>Users</h2>

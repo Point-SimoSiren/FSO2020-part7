@@ -1,27 +1,16 @@
 import usersService from '../services/users'
 
-const userReducer = (state = null, action) => {
+const userReducer = (state = [], action) => {
     switch (action.type) {
-
-        case 'SETUSER':
-            return action.payload
-        default: return state
 
         case 'INIT':
             return action.payload
+        default: return state
     }
 }
 
 //------------------ACTION-CREATOR-------------------
 
-export const setUserAction = user => {
-    return async dispatch => {
-        dispatch({
-            type: 'SETUSER',
-            payload: user
-        })
-    }
-}
 
 export const initUsersAction = () => {
     return async dispatch => {

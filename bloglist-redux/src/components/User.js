@@ -1,9 +1,6 @@
 import React from 'react'
-//import { useDispatch } from 'react-redux'
 
 const User = ({ user }) => {
-
-    // const dispatch = useDispatch()
 
     const userStyle = {
         textAlign: 'center',
@@ -21,8 +18,9 @@ const User = ({ user }) => {
     }
     return (
         <div style={userStyle}>
-            {user.username}
-            {user.name}
+            <h3>{user.username}</h3>
+            <p>Name: {user.name}</p>
+            <p>Blogs: {user.blogs.length}</p>
 
         </div>
     )

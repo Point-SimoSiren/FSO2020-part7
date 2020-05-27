@@ -5,7 +5,7 @@ import loginService from '../services/login'
 import blogsService from '../services/blogs'
 import { notificationAction, emptyAction } from '../reducers/notificationReducer'
 import { positiveAction, negativeAction } from '../reducers/positivityReducer'
-import { setUserAction } from '../reducers/userReducer'
+import { setCurrentUserAction } from '../reducers/currentUserReducer'
 
 
 const LoginForm = () => {
@@ -18,15 +18,15 @@ const LoginForm = () => {
     const handleLoginSubmit = async (event) => {
         event.preventDefault()
         try {
-            const user = await loginService.login({
+            const currentUser = await loginService.login({
                 username, password,
             })
             window.localStorage.setItem(
-                'loggedBlogsAppUser', JSON.stringify(user)
+                'loggedBlogsAppUser', JSON.stringify(currentUser)
             )
 
-            blogsService.setToken(user.token)
-            dispatch(setUserAction(user))
+            blogsService.setToken(currentUser.token)
+            dispatch(setCurrentUserAction(currentUser))
             setUsername('')
             setPassword('')
             dispatch(positiveAction())

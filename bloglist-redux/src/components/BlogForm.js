@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { positiveAction, negativeAction } from '../reducers/positivityReducer'
 import { notificationAction, emptyAction } from '../reducers/notificationReducer'
 import { createAction } from '../reducers/blogReducer'
@@ -8,14 +8,19 @@ const BlogForm = () => {
 
     const dispatch = useDispatch()
 
+    const currentUser = useSelector(({ currentUser }) => {
+        return currentUser
+    })
+
     const addBlog = (event) => {
         event.preventDefault()
+        console.log(currentUser)
         let newBlog = {
             title: newTitle,
             author: newAuthor,
             url: newUrl,
             likes: 0,
-            user: 'Simo'//user.name
+            user: currentUser.username
         }
         try {
 
@@ -39,8 +44,6 @@ const BlogForm = () => {
             setNewUrl('')
         }
     }
-
-
 
     const [newAuthor, setNewAuthor] = useState('')
     const [newTitle, setNewTitle] = useState('')

@@ -30,6 +30,8 @@ const Blog = ({ blog, handleDeleteClick }) => {
         marginBottom: 5
     }
 
+    if (!blog) return null
+
     if (showBlog === false) {
         return (
 
@@ -45,7 +47,7 @@ const Blog = ({ blog, handleDeleteClick }) => {
                 <h3 > {blog.title} </h3>
                 <h4>Author: {blog.author}</h4>
                 <h4>Url: {blog.url} </h4>
-                <p>Added by: {blog.user.username}</p>
+                <p>Added by: {blog.user.name}</p>
                 <h4>Likes: {blog.likes} <button onClick={() => handleLikeClick(blog)}>Like!</button></h4>
                 <button style={{ height: '30px', width: '70px' }}
                     onClick={() => handleDeleteClick(blog.id)}>Delete</button>
