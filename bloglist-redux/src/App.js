@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Blogs from './components/Blogs'
-import Blog from './components/Blog'
+import User from './components/User'
 import blogsService from './services/blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/Loginform'
@@ -8,8 +8,7 @@ import Togglable from './components/Togglable'
 import { setCurrentUserAction, logoutAction } from './reducers/currentUserReducer'
 import { initUsersAction } from './reducers/userReducer'
 import { notificationAction, emptyAction } from './reducers/notificationReducer'
-import { positiveAction, negativeAction } from './reducers/positivityReducer'
-import { initBlogsAction, removeAction } from './reducers/blogReducer'
+import { positiveAction } from './reducers/positivityReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
 import Users from './components/Users'
@@ -17,43 +16,48 @@ import {
   Switch,
   Route,
   Link,
-  useRouteMatch,
-  Redirect,
-  useHistory,
+  useRouteMatch
 } from "react-router-dom"
+import { Container, Button, AppBar, Toolbar, Typography } from '@material-ui/core'
 
 
 const Menu = () => {
-  const padding = {
-    paddingRight: 5
-  }
+
 
   const blogs = useSelector(({ blogs }) => {
     return blogs
   })
 
-  /*const match = useRouteMatch('/:id')
-  const bloggy = match
-    ? blogs.find(blog => blog.id === match.params.id)
-    : null*/
+  const users = useSelector(({ users }) => {
+    return users
+  })
+
+  const match = useRouteMatch('/users/:id')
+  const user = match
+    ? users.find(user => user.id === match.params.id)
+    : null
 
 
   return (
     <div>
-      <div>
-        <Link style={padding} to="/">Blogs</Link>
-
-        <Link style={padding} to="/users">Users</Link>
-      </div>
+      <AppBar position="static" color='orange'>
+        <Toolbar>
+          <Typography variant="h4"><Link to="/users">Users</Link>
+          </Typography>
+          <span style={{ width: 20 }} />
+          <Typography variant="h4"><Link to="/">Blogs</Link>
+          </Typography>
+        </Toolbar>
+      </AppBar>
 
       <Switch>
 
-        <Route path="/users">
-          <Users />
+        <Route path="/users/:id">
+          <User user={user} />
         </Route>
 
-        <Route path="/:id">
-          <Blog />
+        <Route path="/users">
+          <Users />
         </Route>
 
         <Route path="/">
@@ -71,7 +75,6 @@ const Menu = () => {
 const App = () => {
 
   const dispatch = useDispatch()
-
 
 
   useEffect(() => {
@@ -129,17 +132,17 @@ const App = () => {
   //---------------RENDER-WHEN-USER-IS-LOGGED-IN----------------
   else {
     return (
-      <div>
+      <Container>
         <h1>Bloglist</h1>
 
         <p>Logged in as {currentUser.username}
-          <button style={{ width: "150px", height: "30px", marginLeft: "300px" }}
+          <Button style={{ width: "150px", height: "30px", marginLeft: "300px" }}
             onClick={handleLogOut} >
             LOGOUT
-          </button></p>
+          </Button></p>
         <Notification />
         <Menu />
-      </div>
+      </Container>
     )
   }
 }

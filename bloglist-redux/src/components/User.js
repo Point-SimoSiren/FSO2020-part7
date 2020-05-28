@@ -1,26 +1,28 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const User = ({ user }) => {
 
-    const userStyle = {
-        textAlign: 'center',
-        marginRight: 300,
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: 'solid',
-        borderColor: 'orange',
-        borderRadius: 5,
-        borderWidth: 1,
-        marginBottom: 5
-    }
+    const blogs = useSelector(({ blogs }) => {
+        return blogs.filter(b => b.user.id.includes(user.id)
+        )
+    })
+
+
     if (!user) {
-        return (null)
+        return null
     }
+
     return (
-        <div style={userStyle}>
-            <h3>{user.username}</h3>
-            <p>Name: {user.name}</p>
-            <p>Blogs: {user.blogs.length}</p>
+        <div>
+            <h2>{user.name}</h2>
+
+            {blogs.map(ub => (
+                <div key={ub.id}>
+                    <h4>{ub.title}{' '} Likes: {ub.likes} </h4>
+
+                </div>
+            ))}
 
         </div>
     )

@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import '../index.css';
 import { useSelector } from 'react-redux'
+//import Alert from '@material-ui/lab/Alert';
+import { Alert } from '@material-ui/lab';
 
 const Notification = () => {
 
@@ -19,16 +21,16 @@ const Notification = () => {
     }
     else if (positivity === 'positive') {
         return (
-            <div className="success">
+            <Alert variant="outlined" severity="success">
                 {notification}
-            </div>
+            </Alert>
         )
     }
     else if (positivity === 'negative') {
         return (
-            <div className="error">
+            <Alert variant="outlined" severity="error">
                 {notification}
-            </div>
+            </Alert>
         )
     }
     Notification.propTypes = {

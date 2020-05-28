@@ -6,6 +6,10 @@ import blogsService from '../services/blogs'
 import { notificationAction, emptyAction } from '../reducers/notificationReducer'
 import { positiveAction, negativeAction } from '../reducers/positivityReducer'
 import { setCurrentUserAction } from '../reducers/currentUserReducer'
+import {
+    Button,
+    Input
+} from '@material-ui/core'
 
 
 const LoginForm = () => {
@@ -53,20 +57,21 @@ const LoginForm = () => {
             <form onSubmit={handleLoginSubmit}>
                 <div>
                     username
-                    <input
+                    <Input
                         value={username} autoComplete={username}
                         onChange={({ target }) => setUsername(target.value)}
                     />
                 </div>
                 <div>
                     password
-                        <input
+                        <Input
                         type="password"
                         value={password} autoComplete={password}
                         onChange={({ target }) => setPassword(target.value)}
                     />
                 </div>
-                <button type="submit">login</button>
+                <Button type="submit">login</Button>
+
             </form>
         </div>
     )

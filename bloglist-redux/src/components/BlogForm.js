@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { positiveAction, negativeAction } from '../reducers/positivityReducer'
 import { notificationAction, emptyAction } from '../reducers/notificationReducer'
 import { createAction } from '../reducers/blogReducer'
+import { Button } from '@material-ui/core'
 
 const BlogForm = () => {
 
@@ -64,7 +65,7 @@ const BlogForm = () => {
                     onChange={({ target }) => setNewUrl(target.value)} />
             </div>
             <div>
-                <button type="submit">add</button>
+                <Button type="submit">add</Button>
             </div>
         </form>
     )
